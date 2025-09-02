@@ -1,0 +1,18 @@
+html, body, #root { height: 100%; margin: 0; }
+.muted { opacity: .7; }
+.todo {
+  padding: .35rem .5rem;
+  border: 2px dashed currentColor;
+  border-radius: .5rem;
+  font-size: .9rem;
+  display: inline-block;
+}
+.small { font-size: .9rem; }
+.tiny { font-size: .8rem; }
+.center { text-align: center; }
+.right { text-align: right; }
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
