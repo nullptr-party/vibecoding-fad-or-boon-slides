@@ -366,7 +366,7 @@ export default function DeckComponent() {
           <MermaidDiagram chart={`
             graph LR
               subgraph "Шаг 1: Планирование"
-                A["**0) Подготовка:** Цель, файлы, логи<br/>**1) План** в Gemini 2.5 Pro"]
+                A["**0) Подготовка:** Цель, файлы, логи<br/>**1) План** в Gemini 2.5 Pro либо в Claude Code"]
               end
               subgraph "Шаг 2: Исполнение"
                 B["**2) Исполнение** в Claude Code"]
@@ -375,8 +375,8 @@ export default function DeckComponent() {
                 C{"**3) Тесты** / Снэпшоты"}
               end
               
-              A -- План из 5-8 шагов --> B;
-              B -- Изменения в коде --> C;
+              A --> B;
+              B -- Изменения<br/>в коде --> C;
               C -- OK --> D[✅ Ship];
               C -- Fail --> E["**4) Корректировка**<br/>/compact, дробим шаг, уточняем план"];
               E --> B;
@@ -396,44 +396,30 @@ export default function DeckComponent() {
         </Notes>
       </Slide>
 
-      {/* 8. НЮАНСЫ: ЯЗЫКИ И БЕЗОПАСНОСТЬ */}
+      {/* 8.1. КЕЙС "TEA": БЕЗОПАСНОСТЬ */}
       <Slide backgroundColor="bg">
-        <SectionTitle label="Важные нюансы" caption="Языки и Безопасность"/>
-        <FlexBox gap={32} alignItems="stretch">
+        <SectionTitle label='Кейс "Tea": вайбкодинг без контроля' caption="Когда скорость важнее безопасности"/>
+        <FlexBox gap={32} alignItems="center">
           <Card flex={1}>
-            <Heading fontSize="h4" marginTop={0}>Где LLM пишет лучше?</Heading>
-            <Text fontSize="text"><b>#1 Python:</b> стабильнее всего</Text>
-            <Text fontSize="text"><b>#2 TypeScript:</b> хорошо, но чуть больше трения</Text>
-            <Text fontSize="text" color="muted"><b>#3 Kotlin/Rust:</b> заметно тяжелее</Text>
-          </Card>
-          <Card flex={1}>
-            <Heading fontSize="h4" marginTop={0} color="danger">Кейс "Tea": без контроля</Heading>
-            <UnorderedList fontSize="text">
+            <Heading fontSize="h4" marginTop={0} color="danger">Что пошло не так?</Heading>
+            <UnorderedList fontSize="text" color="danger">
               <ListItem>Требовали фото с ID "для верификации"</ListItem>
-              <ListItem>Хранили геолокацию</ListItem>
-              <ListItem>Результат: компрометация данных</ListItem>
+              <ListItem>Хранили геолокацию пользователей</ListItem>
+              <ListItem>Всё это в публичном бакете в Firebase</ListItem>
             </UnorderedList>
           </Card>
+          <Card flex={1}>
+            <Heading fontSize="h4" marginTop={0} color="danger">Результат</Heading>
+            <Text fontSize="text" color="text">Компрометация данных пользователей и репутационный ущерб для проекта.</Text>
+            <Box border="1px solid" borderColor="danger" borderRadius={8} padding={16} marginTop={24} backgroundColor="#FFF0F6">
+              <Text fontSize="text" color="danger" textAlign="center" margin={0}>
+                С большой силой приходит большая ответственность
+              </Text>
+            </Box>
+          </Card>
         </FlexBox>
         <Notes>
-          «Кстати, есть ощущение, что ИИ пишет код на разных языках с разным качеством... И последнее, но самое важное.
-          С большой силой приходит большая ответственность...»
-        </Notes>
-      </Slide>
-
-      {/* 9. МАНИФЕСТ */}
-      <Slide backgroundColor="heading">
-        <FlexBox height="100%" alignItems="center" justifyContent="center" flexDirection="column" gap={48}>
-          <Heading color="cardBg">Манифест управляемого вайбкодинга</Heading>
-          <FlexBox gap={24} alignItems="stretch" justifyContent="center">
-            <Card><Text fontSize="text" textAlign="center">Сужай периметр</Text></Card>
-            <Card><Text fontSize="text" textAlign="center">Ставь "заборы"</Text></Card>
-            <Card><Text fontSize="text" textAlign="center">Используй гибрид</Text></Card>
-            <Card><Text fontSize="text" textAlign="center">Не корми Sunk Cost</Text></Card>
-          </FlexBox>
-        </FlexBox>
-        <Notes>
-          «Так что же такое вайб-кодинг: блажь или благо? Это блажь, если... И это благо, если...»
+          «И последнее, но самое важное. Пример Tea показывает, что происходит, когда вайбкодинг идёт без контроля...»
         </Notes>
       </Slide>
 
@@ -441,7 +427,6 @@ export default function DeckComponent() {
       <Slide backgroundColor="bg">
         <FlexBox height="100%" flexDirection="column" justifyContent="center" alignItems="center" gap={48}>
           <Heading color="heading" fontSize="h1">Спасибо!</Heading>
-          <SectionTitle label="Q&A" caption="Готов к вашим вопросам"/>
         </FlexBox>
         <Notes>
           «Спасибо! Готов к вашим вопросам.»
