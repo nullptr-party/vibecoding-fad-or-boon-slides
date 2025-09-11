@@ -107,6 +107,24 @@ const QRBlock: React.FC<{ value: string; label?: string }> = ({value, label = "�
   </Card>
 );
 
+const FitImage: React.FC<{ src: string; alt?: string; maxHeight?: string }> = ({
+                                                                                 src,
+                                                                                 alt = "",
+                                                                                 maxHeight = "600px",
+                                                                               }) => (
+  <Image
+    src={src}
+    alt={alt}
+    width="100%"
+    height="auto"
+    style={{
+      maxWidth: '100%',
+      maxHeight: maxHeight,
+      objectFit: 'contain',
+    }}
+  />
+);
+
 const FooterTemplate = ({slideNumber, numberOfSlides}: { slideNumber: number; numberOfSlides: number }) => (
   <Box
     position="absolute"
@@ -156,11 +174,7 @@ export default function DeckComponent() {
       {/* 1. ЧТО ТАКОЕ ВАЙБ-КОДИНГ? (ИСТОЧНИК) */}
       <Slide backgroundColor="bg">
         <SectionTitle label="Что такое вайб-кодинг?"/>
-        <Image
-          src={require("../img/tweet-1886192184808149383.png")}
-          width="100%"
-          height="auto"
-          style={{maxHeight: '600px', objectFit: 'contain'}}/>
+        <FitImage src={require("../img/tweet-1886192184808149383.png")}/>
         <Notes>
           «Термин популяризировал Андрей Карпатый... В его описании это выглядит как магия...»
         </Notes>
@@ -217,7 +231,7 @@ export default function DeckComponent() {
       <Slide backgroundColor="bg">
         <SectionTitle label="...и где я свернул не туда" caption="Простой путь vs. Кроличья нора перфекционизма"/>
         <MermaidDiagram chart={`
-          graph TD
+          graph LR
             A["Локально всё работает"] --> B{Время деплоить};
             B --> C["✅ **Простой путь**<br/>Скопировать файл сессии<br/>(1 минута)"];
             B --> D["❌ **Сложный путь**<br/>Сделать красивый веб-логин<br/>(часы страданий)"];
@@ -233,7 +247,20 @@ export default function DeckComponent() {
         </Notes>
       </Slide>
 
-      {/* 4. ТРИ ОШИБКИ ИЗ КЕЙСА #1 */}
+      <Slide backgroundColor="bg">
+        <FlexBox height="100%" flexDirection="column" justifyContent="center" alignItems="center" gap={32}>
+          <Heading fontSize="h3" color="heading" textAlign="center">Ошибка невозвратных затрат</Heading>
+          <FitImage
+            src={require("../img/11933170183.png")}
+            maxHeight={"80%"}
+          />
+          <Text fontSize="text" color="muted" textAlign="center">Классическая ловушка перфекциониста-программиста</Text>
+        </FlexBox>
+        <Notes>
+          «Вторая ошибка - ошибка невозвратных затрат. Как на этой классической картинке с вагонеткой...»
+        </Notes>
+      </Slide>
+
       <Slide backgroundColor="bg">
         <SectionTitle label="Три ошибки, которые я совершил" caption="И как их избежать"/>
         <FlexBox gap={24} alignItems="stretch">
@@ -241,20 +268,18 @@ export default function DeckComponent() {
             <Heading fontSize="h4" color="heading" marginTop={0}>1. Перфекционизм</Heading>
             <Text fontSize="text" color="text">Вместо рабочего MVP полез "делать красиво" и усложнять.</Text>
           </Card>
-          <VisualCard flex={1.2}>
-            <Heading fontSize="h4" color="heading" marginTop={0}>2. Sunk Cost</Heading>
-            <Box width="100%" height={200} border="2px dashed" borderColor="border" borderRadius={8}
-                 display="flex" alignItems="center" justifyContent="center">
-              <Text color="muted">Плейсхолдер: мем с вагонеткой</Text>
-            </Box>
-          </VisualCard>
+          <Card flex={1}>
+            <Heading fontSize="h4" color="heading" marginTop={0}>2. Невозвратные затраты</Heading>
+            <Text fontSize="text" color="text">Продолжал вкладываться в неработающее решение только потому, что уже
+              потратил время.</Text>
+          </Card>
           <Card flex={1}>
             <Heading fontSize="h4" color="heading" marginTop={0}>3. Эскалация сложности</Heading>
-            <Text fontSize="text" color="text">С ростом кода чистый вайб ломается. Нужен инженерный подход.</Text>
+            <Text fontSize="text" color="text">С ростом кодовой базы вайбкодинг ломается</Text>
           </Card>
         </FlexBox>
         <Notes>
-          «Этот кейс научил меня трём вещам... Вторая - Sunk Cost... Как на этой картинке...»
+          «Этот кейс научил меня трём вещам...»
         </Notes>
       </Slide>
 
@@ -304,7 +329,7 @@ export default function DeckComponent() {
       <Slide backgroundColor="bg">
         <SectionTitle label="Мой инструментарий" caption="Как выглядит мой «условный» вайб-кодинг"/>
         <MermaidDiagram chart={`
-          graph TD
+          graph LR
             subgraph "Планировщик (большой контекст)"
               A["**Gemini 2.5 Pro**<br/>(через AI Studio)"]
             end
@@ -339,7 +364,7 @@ export default function DeckComponent() {
         <SectionTitle label="Как это работает на практике" caption="5 шагов управляемого вайб-кодинга"/>
         <Card>
           <MermaidDiagram chart={`
-            graph TD
+            graph LR
               subgraph "Шаг 1: Планирование"
                 A["**0) Подготовка:** Цель, файлы, логи<br/>**1) План** в Gemini 2.5 Pro"]
               end
