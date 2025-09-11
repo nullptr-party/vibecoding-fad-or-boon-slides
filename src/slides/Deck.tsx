@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Box, Deck, FlexBox, Heading, ListItem, Notes, Slide, Text, UnorderedList} from "spectacle";
 import mermaid from "mermaid";
-import QRCode from "react-qr-code";
+import { QRCode } from 'react-qr-code';
 
 // ВСПОМОГАТЕЛЬНЫЕ КОМПОНЕНТЫ
 const Placeholder: React.FC<{
@@ -135,7 +135,7 @@ const theme = {
 
 const MATERIALS_URL = "https://your-repo-or-notion-link"; // TODO: замени на реальную ссылку
 
-const QRBlock: React.FC<{ value: string; label?: string }> = ({ value, label = "Материалы доклада" }) => (
+const QRBlock: React.FC<{ value: string; label?: string }> = ({value, label = "Материалы доклада"}) => (
   <Box
     padding={16}
     border="1px dashed #9CA3AF"
@@ -146,7 +146,8 @@ const QRBlock: React.FC<{ value: string; label?: string }> = ({ value, label = "
     alignItems="center"
     gap={8}
   >
-    <QRCode value={value} size={128} />
+    <QRCode
+      value={"123"}/>
     <Text fontSize="18px" color="#6B7280">{label}</Text>
     <Text fontSize="14px" color="#9CA3AF">{value}</Text>
   </Box>
@@ -172,7 +173,7 @@ export default function DeckComponent() {
               title="Плейсхолдер: логотип команды/ивента"
               bullets={["Лого конференции / компании"]}
             />
-            <QRBlock value={MATERIALS_URL} label="QR на материалы" />
+            <QRBlock value={MATERIALS_URL} label="QR на материалы"/>
           </FlexBox>
         </FlexBox>
         <Notes>
@@ -561,7 +562,7 @@ flowchart LR
             title="Чек-лист (3 пункта)"
             bullets={["Выбери одну рутину", "Сделай утилиту за вечер", "Публичный сервис → только гибрид"]}
           />
-          <QRBlock value={MATERIALS_URL} label="QR на репозиторий/материалы" />
+          <QRBlock value={MATERIALS_URL} label="QR на репозиторий/материалы"/>
         </FlexBox>
         <Notes>
           {`Закрытие: «Я говорю “Gemini” — имею в виду 2.5 Pro. Эти слайды тоже вайбкодились». Не говорить «времени мало».`}
