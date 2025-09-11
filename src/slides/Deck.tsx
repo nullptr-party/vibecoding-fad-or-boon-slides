@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Box, Deck, FlexBox, Heading, ListItem, Notes, Slide, Text, UnorderedList} from "spectacle";
 import mermaid from "mermaid";
-import { QRCode } from 'react-qr-code';
+import { QRCodeSVG } from 'qrcode.react';
 
 // ВСПОМОГАТЕЛЬНЫЕ КОМПОНЕНТЫ
 const Placeholder: React.FC<{
@@ -146,7 +146,7 @@ const QRBlock: React.FC<{ value: string; label?: string }> = ({value, label = "�
     alignItems="center"
     gap={8}
   >
-    <QRCode
+    <QRCodeSVG
       value={"123"}/>
     <Text fontSize="18px" color="#6B7280">{label}</Text>
     <Text fontSize="14px" color="#9CA3AF">{value}</Text>
@@ -484,7 +484,7 @@ flowchart TB
           chart={`
 flowchart LR
   subgraph Plan["Планировщик"]
-    G[Gemini 2.5 Pro\\n(AI Studio)]
+    G["Gemini 2.5 Pro<br/>(AI Studio)"]
   end
   subgraph Exec["Исполнитель"]
     C[Claude Code]
