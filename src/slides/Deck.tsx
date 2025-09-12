@@ -57,40 +57,54 @@ const VisualCard: React.FC<{ children: React.ReactNode; flex?: number }> = ({chi
   </Card>
 );
 
-let __mmdInit = false;
-const MermaidDiagram: React.FC<{ chart: string; }> = ({chart}) => {
+const MermaidDiagram: React.FC<{ chart: string; size?: 'S' | 'M' | 'L' | 'XL' | 'XXL' }> = ({chart, size = 'M'}) => {
   const ref = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-    if (!__mmdInit) {
-      mermaid.initialize({
-        startOnLoad: false,
-        securityLevel: "loose",
-        theme: "base",
-        themeVariables: {
-          background: theme.colors.cardBg,
-          primaryColor: '#F1F3F5',
-          primaryTextColor: theme.colors.text,
-          primaryBorderColor: theme.colors.border,
-          lineColor: theme.colors.heading,
-          textColor: theme.colors.text,
-          fontSize: '18px',
-        },
-        flowchart: {curve: "basis"},
-      });
-      __mmdInit = true;
-    }
+    const fontSize = size === 'S' ? '16px' : size === 'L' ? '20px' : size === 'XL' ? '24px' : size === 'XXL' ? '28px' : '18px';
+
+    mermaid.initialize({
+      startOnLoad: false,
+      securityLevel: "loose",
+      theme: "base",
+      themeVariables: {
+        background: theme.colors.cardBg,
+        primaryColor: '#F1F3F5',
+        primaryTextColor: theme.colors.text,
+        primaryBorderColor: theme.colors.border,
+        lineColor: theme.colors.heading,
+        textColor: theme.colors.text,
+        fontSize,
+      },
+      flowchart: {curve: "basis"},
+    });
+
     const id = "mmd-" + Math.random().toString(36).slice(2);
     mermaid.render(id, chart).then(({svg}) => {
       if (ref.current) ref.current.innerHTML = svg;
     });
-  }, [chart]);
+  }, [chart, size]);
 
-  return <div ref={ref} style={{display: 'flex', justifyContent: 'center', width: '100%'}}/>;
+  const scaleMap = {
+    S: 0.8,
+    M: 1,
+    L: 1.1,
+    XL: 1.2,
+    XXL: 1.3,
+  };
+  const scale = scaleMap[size];
+
+  return <div ref={ref} style={{
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100%',
+    transform: `scale(${scale})`,
+    transformOrigin: 'center',
+  }}/>;
 };
 
 const SectionTitle: React.FC<{ label: string; caption?: string }> = ({label, caption}) => (
-  <Box textAlign="left" marginBottom={32}>
+  <Box textAlign="left">
     <Heading color="heading" fontSize="h2" margin="0 0 8px 0">{label}</Heading>
     {caption && (
       <Text color="muted" fontSize="text" margin="0">{caption}</Text>
@@ -140,7 +154,7 @@ const FooterTemplate = ({slideNumber, numberOfSlides}: { slideNumber: number; nu
     right={0}
     padding="16px 24px"
   >
-    <Text fontSize="small" color="muted">{slideNumber}</Text>
+    <Text fontSize="text" color="muted">{slideNumber}</Text>
   </Box>
 );
 
@@ -174,12 +188,19 @@ export default function DeckComponent() {
 
       {/* 1. О СПИКЕРЕ */}
       <Slide backgroundColor="bg">
-        <FlexBox height="100%" flexDirection="column" justifyContent="center" alignItems="center" gap={48}>
-          <Box textAlign="center">
-            <Heading color="heading" fontSize="h2" margin="0 0 24px 0">Илья Гуля</Heading>
-            <Text color="text" fontSize="text" margin="0 0 16px 0">inDrive</Text>
-            <Text color="muted" fontSize="text" margin="0 0 8px 0">Release Engineer</Text>
-            <Text color="muted" fontSize="text" margin="0">Developer Productivity Engineer</Text>
+        <FlexBox height="100%" flexDirection="column" justifyContent="center" alignItems="center">
+          <Box>
+            <Heading color="heading" fontSize="h1">
+              Илья Гуля
+            </Heading>
+            <UnorderedList color="text" fontSize="text" margin="0">
+              <ListItem>Работаю в <strong>inDrive</strong></ListItem>
+              <UnorderedList color="text">
+                <ListItem>Release Engineering</ListItem>
+                <ListItem>Developer Productivity</ListItem>
+              </UnorderedList>
+              <ListItem>Основатель <strong>nullptr.party</strong></ListItem>
+            </UnorderedList>
           </Box>
         </FlexBox>
         <Notes>
@@ -201,18 +222,19 @@ export default function DeckComponent() {
       {/* 3. ПРОЦЕСС ВАЙБ-КОДИНГА (СХЕМА КАРПАТОГО) */}
       <Slide backgroundColor="bg">
         <SectionTitle label="Как это выглядит в теории"/>
-        <Card>
-          <MermaidDiagram chart={`
+        <VisualCard>
+          <MermaidDiagram size="XL" chart={`
             flowchart LR
               A["👤 **Человек**"] --> |"Просит фичу"| B["🤖 **LLM**"];
               B --> |"Генерирует код"| C["💻 **Код**"];
               C --> |"Возникает ошибка"| A;
               A --> |"Отдаёт ошибку"| B;
 
-              style A fill:#E9ECEF,stroke:#495057
+              style A fill:#E7F5FF,stroke:#339AF0
               style B fill:#E7F5FF,stroke:#339AF0
+              style C fill:#E7F5FF,stroke:#339AF0
           `}/>
-        </Card>
+        </VisualCard>
         <Notes>
           [01:00] По Карпатому, это выглядит так: ты не паришься, что генерит LLM. Просишь фичу, запускаешь. Не
           работает — отдаешь ошибку обратно. Такой цикл обратной связи, где ты просто копируешь туда-сюда. Звучит
@@ -240,11 +262,12 @@ export default function DeckComponent() {
       </Slide>
       <Slide backgroundColor="bg">
         <SectionTitle label="Кейс #1: Антиспам-бот для Telegram" caption="Когда рутина достала"/>
-        <FlexBox>
+        <FlexBox  gap={32} alignItems="stretch">
           <Card flex={1}>
             <Heading fontSize="h4" color="heading" marginTop={0}>Идея</Heading>
-            <Text color="text">К тому моменту нейронки уже хорошо генерили код. Я решил: почему бы не навайбкодить
-              бота?</Text>
+            <Text color="text">К октябрю 2024 нейронки уже хорошо генерили код. </Text>
+            <Text color="text">Почему бы не навайбкодить бота?</Text>
+            <Text color="text">(до того как это стало мейнстримом)</Text>
           </Card>
         </FlexBox>
         <Notes>
@@ -257,12 +280,12 @@ export default function DeckComponent() {
       <Slide backgroundColor="bg">
         <SectionTitle label="Концепция бота" caption="Проще некуда"/>
         <VisualCard>
-          <MermaidDiagram chart={`
+          <MermaidDiagram size={'XXL'} chart={`
               flowchart LR
-                A["👤 Новый пользователь"] --> B["📝 Первое сообщение"];
-                B --> C{"🤖 LLM-классификатор"};
-                C -->|"Это спам"| D["🚫 Бан"];
-                C -->|"Не спам"| E["✅ OK"];
+                A["👤 Новый пользователь<br/>📝 Первое сообщение"]
+                A --> B{"🤖 LLM-классификатор"}
+                B -->|"Это спам"| C["🚫 Бан"]
+                B -->|"Не спам"| D["✅ OK"]
             `}/>
         </VisualCard>
         <Notes>
@@ -275,18 +298,22 @@ export default function DeckComponent() {
       <Slide backgroundColor="bg">
         <SectionTitle label="Первоначальный успех" caption="...и это сработало идеально!"/>
         <FlexBox gap={32} alignItems="center">
-          <Card flex={1}>
-            <Heading fontSize="h3" color="success" margin={0}>~10 000</Heading>
-            <Text fontSize="text" color="text" margin="8px 0 24px 0">спамеров забанено за год</Text>
-            <Heading fontSize="h3" color="accent" margin={0}>20 минут</Heading>
-            <Text fontSize="text" color="text" margin="8px 0 0 0">ушло на рабочего MVP на Python</Text>
-          </Card>
-          <Card flex={1}>
-            <Heading fontSize="h4" color="heading" marginTop={0}>Результат</Heading>
-            <Text fontSize="text" color="text" margin="0 0 16px 0">✅ Спам остановлен</Text>
-            <Text fontSize="text" color="text" margin="0 0 16px 0">✅ Всего 5-6 ложных срабатываний</Text>
-            <Text fontSize="text" color="muted" margin="24px 0 0 0">Звучит как идеальная история успеха...</Text>
-          </Card>
+          <Box>
+            <Card flex={1}>
+              <Heading fontSize="h3" color="success" margin={0}>~10 000</Heading>
+              <Text fontSize="text" color="text" margin="8px 0 24px 0">спамеров забанено за год</Text>
+              <Heading fontSize="h3" color="accent" margin={0}>20 минут</Heading>
+              <Text fontSize="text" color="text" margin="8px 0 0 0">ушло на рабочего MVP на Python</Text>
+            </Card>
+          </Box>
+          <Box>
+            <Card flex={1}>
+              <Heading fontSize="h4" color="heading" marginTop={0}>Результат</Heading>
+              <Text fontSize="text" color="text" margin="0 0 16px 0">✅ Спам остановлен</Text>
+              <Text fontSize="text" color="text" margin="0 0 16px 0">✅ Всего 5-6 ложных срабатываний</Text>
+              <Text fontSize="text" color="muted" margin="24px 0 0 0">Звучит как история успеха...</Text>
+            </Card>
+          </Box>
         </FlexBox>
         <Notes>
           [03:00] И это сработало! Почти 10 000 забаненных спамеров, всего 5-6 ложных срабатываний. На написание MVP
@@ -297,19 +324,25 @@ export default function DeckComponent() {
 
       {/* 7. КЕЙС #1: ПРОВАЛ (РАЗВИЛКА) */}
       <Slide backgroundColor="bg">
-        <SectionTitle label="...и где я свернул не туда" caption="Простой путь vs. Кроличья нора перфекционизма"/>
-        <MermaidDiagram chart={`
+        <SectionTitle label="...и где я свернул не туда" caption="Простой путь vs кроличья нора перфекционизма"/>
+        <VisualCard>
+          <MermaidDiagram size={'L'} chart={`
           graph LR
-            A["MVP работает локально"] --> B{"Нужен деплой на сервер"};
+            B{"<b>Нужен деплой на сервер</b>"};
             B --> C["✅ **Простой путь (1 минута)**<br/>Скопировать файл сессии"];
             B --> D["❌ **Мой путь (часы страданий)**<br/>Сделать красивый веб-логин"];
-            D --> E["Переписать на TypeScript"];
-            E --> F["Переписать на Rust..."];
-            F --> G["...сдаться"];
+            D --> E["Переписать на TypeScript/Rust<br>"];
+            E --> G["...сдаться"];
             
+            
+            style B fill:#FFF3CD,stroke:#F0AD4E
             style C fill:#E3FAFC,stroke:#198754
-            style D,E,F fill:#FFF0F6,stroke:#DC3545
+            style D fill:#FFF0F6,stroke:#DC3545
+            style E fill:#FFF0F6,stroke:#DC3545
+            style G fill:#FFF0F6,stroke:#DC3545
         `}/>
+
+        </VisualCard>
         <Notes>
           [03:40] Когда у меня появилось рабочее решение, его нужно было задеплоить. Был простой вариант: скопировать
           файл сессии на сервер и забыть. Но я, к сожалению, перфекционист. Я решил, что мне нужен красивый
@@ -336,22 +369,24 @@ export default function DeckComponent() {
       {/* 9. КЕЙС #1: ВЫВОДЫ */}
       <Slide backgroundColor="bg">
         <SectionTitle label="Три ошибки, которые я совершил" caption="И как их избежать"/>
-        <FlexBox gap={24} alignItems="stretch">
-          <Card flex={1}>
-            <Heading fontSize="h4" color="heading" marginTop={0}>1. Перфекционизм</Heading>
-            <Text fontSize="text" color="text">Нужно было остановиться на MVP, а я полез "делать красиво".</Text>
-          </Card>
-          <Card flex={1}>
-            <Heading fontSize="h4" color="heading" marginTop={0}>2. Невозвратные затраты</Heading>
-            <Text fontSize="text" color="text">Продолжал вкладываться в то, что не работало, вместо того чтобы
-              откатиться.</Text>
-          </Card>
-          <Card flex={1}>
-            <Heading fontSize="h4" color="heading" marginTop={0}>3. Эскалация сложности</Heading>
-            <Text fontSize="text" color="text">С ростом кодовой базы "чистый" вайбкодинг ломается. LLM перестала
-              справляться.</Text>
-          </Card>
-        </FlexBox>
+        <Box>
+          <FlexBox gap={24} alignItems="stretch">
+            <Card flex={1}>
+              <Heading fontSize="h4" color="heading" marginTop={0}>Перфекционизм<br/><br /></Heading>
+              <Text fontSize="text" color="text">Нужно было остановиться на MVP, а я полез "делать красиво".<br /><br/></Text>
+            </Card>
+            <Card flex={1}>
+              <Heading fontSize="h4" color="heading" marginTop={0}>Невозвратные затраты</Heading>
+              <Text fontSize="text" color="text">Продолжал вкладываться в то, что не работало, вместо того, чтобы
+                откатиться.</Text>
+            </Card>
+            <Card flex={1}>
+              <Heading fontSize="h4" color="heading" marginTop={0}>Эскалация сложности</Heading>
+              <Text fontSize="text" color="text">С ростом кодовой базы "чистый" вайбкодинг ломается. LLM перестала
+                справляться.</Text>
+            </Card>
+          </FlexBox>
+        </Box>
         <Notes>
           [05:42] В этом кейсе можно выделить три ошибки. Первое — перфекционизм. Второе — ошибка невозвратных затрат.
           И третье — эскалация сложности. Вайбкодинг по-карпатому ломается, как только кодовая база растет.
@@ -362,14 +397,16 @@ export default function DeckComponent() {
       <Slide backgroundColor="bg">
         <SectionTitle label="Кейс #2: Тестирование Legacy-сервиса" caption="Идеальная задача для вайбкодера"/>
         <FlexBox>
-          <Card flex={1}>
-            <Heading fontSize="h4" color="heading" marginTop={0}>Контекст</Heading>
-            <UnorderedList color="text">
-              <ListItem>Сервис на Go собирает метрики из GitHub</ListItem>
-              <ListItem>Написан не мной, я не люблю Go</ListItem>
-              <ListItem>И главное — **нет тестов**</ListItem>
-            </UnorderedList>
-          </Card>
+          <Box>
+            <Card flex={1}>
+              <Heading fontSize="h4" color="heading" marginTop={0}>Контекст</Heading>
+              <UnorderedList color="text">
+                <ListItem>Сервис на Go собирает метрики из GitHub</ListItem>
+                <ListItem>Написан не мной, придётся разбираться в коде на Go</ListItem>
+                <ListItem><b>Нет тестов</b></ListItem>
+              </UnorderedList>
+            </Card>
+          </Box>
         </FlexBox>
         <Notes>
           [06:40] Следующий кейс. На работе есть сервис на Go, который собирает метрики. Он без тестов, и я не очень
@@ -381,15 +418,14 @@ export default function DeckComponent() {
       {/* НОВЫЙ СЛАЙД */}
       {/* ================================================================== */}
       <Slide backgroundColor="bg">
-        <SectionTitle label="Как работает сервис метрик" caption="От сырых событий до бизнес-показателей"/>
-        <Card>
-          <MermaidDiagram chart={`
+        <SectionTitle label="Как работает сервис метрик" />
+        <VisualCard>
+          <MermaidDiagram size={"XXL"} chart={`
             flowchart LR
-                A["🐙 **GitHub**"] -- "Webhooks<br/>(pull_request, workflow_job)" --> B["⚙️ **Сервис метрик (Go)**<br/>Агрегирует и считает"];
+                A["🐙 **GitHub**"] -- "Webhooks<br/>(workflow_run, workflow_job)" --> B["⚙️ **Сервис метрик (Go)**<br/>Агрегирует и считает"];
                 B --> C["💾 **ClickHouse**<br/>Хранит готовые метрики"];
-                C --> D["📊 **Дашборды**<br/>(Time to Merge, CI Duration)"];
             `}/>
-        </Card>
+        </VisualCard>
         <Notes>
           [06:48] Если кратко, то сервис работает так: он получает события из Гитхаба через вебхуки, обрабатывает их,
           превращает в конкретные метрики — например, сколько времени заняла CI-джоба или как часто падают тесты — и
@@ -400,22 +436,25 @@ export default function DeckComponent() {
       {/* 12. КЕЙС #2: ПЛАН */}
       <Slide backgroundColor="bg">
         <SectionTitle label="Кейс #2: Тестирование Legacy-сервиса" caption="Идеальная задача для вайбкодера"/>
-        <FlexBox>
-          <Card flex={1}>
-            <Heading fontSize="h4" color="heading" marginTop={0}>План</Heading>
-            <Text color="text">Раз тестов нет, их нужно как-то родить. Самый простой вариант — **снэпшот-тесты**.</Text>
-          </Card>
-        </FlexBox>
+        <Box>
+          <FlexBox>
+            <VisualCard>
+              <Heading fontSize="h4" color="heading" marginTop={0}>План</Heading>
+              <Text color="text">Раз тестов нет, их нужно написать.</Text>
+              <Text color="text">Самый простой вариант — <b>snapshot-тесты</b>.</Text>
+            </VisualCard>
+          </FlexBox>
+        </Box>
         <Notes>
-          [07:14] Я решил, что раз тестов нет, их нужно как-то родить. Самый простой вариант — это снэпшот-тесты.
+          [07:14] Я решил, что раз тестов нет, их нужно как-то родить. Самый простой вариант — это snapshot-тесты.
         </Notes>
       </Slide>
 
-      {/* 13. КЕЙС #2: СНЭПШОТ-ТЕСТЫ (ШАГ 1) */}
+      {/* 13. КЕЙС #2: snapshot-ТЕСТЫ (ШАГ 1) */}
       <Slide backgroundColor="bg">
-        <SectionTitle label="Как работают снэпшот-тесты" caption="Шаг 1: Создание слепка"/>
+        <SectionTitle label="Как работают snapshot-тесты" caption="Шаг 1: Создание snapshot"/>
         <VisualCard>
-          <MermaidDiagram chart={`
+          <MermaidDiagram size="XXL" chart={`
             flowchart LR
                 A["📥 Вход<br>(события)"] --> B["⚙️ **Сервис**<br>(чёрный ящик)"];
                 B --> C["📤 Выход<br>(состояние БД)"];
@@ -428,11 +467,11 @@ export default function DeckComponent() {
         </Notes>
       </Slide>
 
-      {/* 14. КЕЙС #2: СНЭПШОТ-ТЕСТЫ (ШАГ 2) */}
+      {/* 14. КЕЙС #2: snapshot-ТЕСТЫ (ШАГ 2) */}
       <Slide backgroundColor="bg">
-        <SectionTitle label="Как работают снэпшот-тесты" caption="Шаг 2: Сравнение со слепком"/>
+        <SectionTitle label="Как работают snapshot-тесты" caption="Шаг 2: Сравнение со слепком"/>
         <VisualCard>
-          <MermaidDiagram chart={`
+          <MermaidDiagram size={"L"} chart={`
             flowchart LR
                 A["📥 Тот же вход"] --> B["⚙️ **Сервис**"];
                 B --> C["📤 Новый выход"];
@@ -447,11 +486,10 @@ export default function DeckComponent() {
         </Notes>
       </Slide>
 
-      {/* ... остальные слайды без изменений ... */}
       <Slide backgroundColor="bg">
         <SectionTitle label="Новая проблема: откуда взять данные?"
                       caption="Тестовый фреймворк готов за 20 минут, но..."/>
-        <FlexBox gap={32} alignItems="center">
+        <FlexBox gap={48} alignItems="center" marginTop={48}>
           <Card flex={1}>
             <Text fontSize="text" color="text">Я скачал все события из GitHub API за последние 3 дня...</Text>
           </Card>
@@ -574,14 +612,16 @@ export default function DeckComponent() {
           </Card>
         </FlexBox>
         <Notes>
-          [14:00] Хочу показать подводные камни. Кейс приложения Tea. Для регистрации женщины должны были делиться фото с
+          [14:00] Хочу показать подводные камни. Кейс приложения Tea. Для регистрации женщины должны были делиться фото
+          с
           паспортом и геолокацией. Они утверждали, что данные используют только для верификации и потом удаляют.
         </Notes>
       </Slide>
 
       {/* 18. КЕЙС "TII": ПРОВАЛ */}
       <Slide backgroundColor="bg">
-        <SectionTitle label='Кейс "Tea": когда всё идёт не так' caption="С большой силой приходит большая ответственность"/>
+        <SectionTitle label='Кейс "Tea": когда всё идёт не так'
+                      caption="С большой силой приходит большая ответственность"/>
         <FlexBox gap={32} alignItems="stretch">
           <Card flex={1}>
             <Heading fontSize="h4" marginTop={0} color="danger">Что пошло не так?</Heading>
