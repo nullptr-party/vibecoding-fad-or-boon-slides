@@ -35,18 +35,18 @@ const theme = {
 };
 
 const Card: React.FC<{ children: React.ReactNode; flex?: number }> = ({children, flex}) => (
-    <Box
-        backgroundColor="cardBg"
-        border="1px solid"
-        borderColor="border"
-        borderRadius={16}
-        padding={32} // Увеличил паддинг для "воздуха"
-        boxShadow="0 4px 12px rgba(0, 0, 0, 0.05)"
-        flex={flex}
-        height="100%"
-    >
-        {children}
-    </Box>
+  <Box
+    backgroundColor="cardBg"
+    border="1px solid"
+    borderColor="border"
+    borderRadius={16}
+    padding={32} // Увеличил паддинг для "воздуха"
+    boxShadow="0 4px 12px rgba(0, 0, 0, 0.05)"
+    flex={flex}
+    height="100%"
+  >
+    {children}
+  </Box>
 );
 
 const VisualCard: React.FC<{ children: React.ReactNode; flex?: number }> = ({children, flex}) => (
@@ -102,10 +102,14 @@ const MATERIALS_URL = "https://github.com/your-repo/vibe-coding-talk"; // TODO: 
 const CHANNEL_URL = "https://t.me/abitdeeper";
 const OUR_GROUP = "https://t.me/+60NkAf4EsJ8xYWJi";
 
-const QRBlock: React.FC<{ value: string; label?: string }> = ({value, label = "Материалы доклада"}) => (
+const QRBlock: React.FC<{ value: string; label?: string, size?: number }> = ({
+                                                                               value,
+                                                                               label = "Материалы доклада",
+                                                                               size,
+                                                                             }) => (
   <Card>
     <FlexBox flexDirection="column" alignItems="center" gap={16}>
-      <QRCodeSVG value={value} size={160} bgColor={theme.colors.cardBg} fgColor={theme.colors.heading}/>
+      <QRCodeSVG value={value} size={size ?? 160} bgColor={theme.colors.cardBg} fgColor={theme.colors.heading}/>
       <Text fontSize="small" color="muted" textAlign="center" margin={0}>{label}</Text>
     </FlexBox>
   </Card>
@@ -162,7 +166,8 @@ export default function DeckComponent() {
           </Box>
         </FlexBox>
         <Notes>
-          [00:05] Друзья, всем привет! Спасибо, что пришли. Меня зовут Илья, и сегодня я расскажу, как я стал вайбкодером,
+          [00:05] Друзья, всем привет! Спасибо, что пришли. Меня зовут Илья, и сегодня я расскажу, как я стал
+          вайбкодером,
           зачем это нужно и как может помочь вам.
         </Notes>
       </Slide>
@@ -238,11 +243,13 @@ export default function DeckComponent() {
         <FlexBox>
           <Card flex={1}>
             <Heading fontSize="h4" color="heading" marginTop={0}>Идея</Heading>
-            <Text color="text">К тому моменту нейронки уже хорошо генерили код. Я решил: почему бы не навайбкодить бота?</Text>
+            <Text color="text">К тому моменту нейронки уже хорошо генерили код. Я решил: почему бы не навайбкодить
+              бота?</Text>
           </Card>
         </FlexBox>
         <Notes>
-          [02:16] К этому моменту нейронки уже достаточно качественно генерили код, и я решил попробовать навайбкодить решение.
+          [02:16] К этому моменту нейронки уже достаточно качественно генерили код, и я решил попробовать навайбкодить
+          решение.
         </Notes>
       </Slide>
 
@@ -282,7 +289,8 @@ export default function DeckComponent() {
           </Card>
         </FlexBox>
         <Notes>
-          [03:00] И это сработало! Почти 10 000 забаненных спамеров, всего 5-6 ложных срабатываний. На написание MVP ушло
+          [03:00] И это сработало! Почти 10 000 забаненных спамеров, всего 5-6 ложных срабатываний. На написание MVP
+          ушло
           20 минут. Кажется, классно. Но на самом деле все пошло не совсем по плану.
         </Notes>
       </Slide>
@@ -364,7 +372,8 @@ export default function DeckComponent() {
           </Card>
         </FlexBox>
         <Notes>
-          [06:40] Следующий кейс. На работе есть сервис на Go, который собирает метрики. Он без тестов, и я не очень люблю Go.
+          [06:40] Следующий кейс. На работе есть сервис на Go, который собирает метрики. Он без тестов, и я не очень
+          люблю Go.
         </Notes>
       </Slide>
 
@@ -403,7 +412,7 @@ export default function DeckComponent() {
       </Slide>
 
       {/* 13. КЕЙС #2: СНЭПШОТ-ТЕСТЫ (ШАГ 1) */}
-       <Slide backgroundColor="bg">
+      <Slide backgroundColor="bg">
         <SectionTitle label="Как работают снэпшот-тесты" caption="Шаг 1: Создание слепка"/>
         <VisualCard>
           <MermaidDiagram chart={`
@@ -414,12 +423,13 @@ export default function DeckComponent() {
             `}/>
         </VisualCard>
         <Notes>
-          [07:41] Концепция такая: мы представляем сервис как черный ящик. На вход подаем события, на выходе получаем состояние базы данных. Мы записываем это состояние как "слепок" или "snapshot".
+          [07:41] Концепция такая: мы представляем сервис как черный ящик. На вход подаем события, на выходе получаем
+          состояние базы данных. Мы записываем это состояние как "слепок" или "snapshot".
         </Notes>
       </Slide>
 
       {/* 14. КЕЙС #2: СНЭПШОТ-ТЕСТЫ (ШАГ 2) */}
-       <Slide backgroundColor="bg">
+      <Slide backgroundColor="bg">
         <SectionTitle label="Как работают снэпшот-тесты" caption="Шаг 2: Сравнение со слепком"/>
         <VisualCard>
           <MermaidDiagram chart={`
@@ -432,13 +442,15 @@ export default function DeckComponent() {
             `}/>
         </VisualCard>
         <Notes>
-          [08:15] И в будущем, когда мы вносим изменения в код, мы можем прогнать те же входные данные и сравнить новый результат с сохраненным слепком. Если что-то не совпало — тест падает.
+          [08:15] И в будущем, когда мы вносим изменения в код, мы можем прогнать те же входные данные и сравнить новый
+          результат с сохраненным слепком. Если что-то не совпало — тест падает.
         </Notes>
       </Slide>
 
       {/* ... остальные слайды без изменений ... */}
       <Slide backgroundColor="bg">
-        <SectionTitle label="Новая проблема: откуда взять данные?" caption="Тестовый фреймворк готов за 20 минут, но..."/>
+        <SectionTitle label="Новая проблема: откуда взять данные?"
+                      caption="Тестовый фреймворк готов за 20 минут, но..."/>
         <FlexBox gap={32} alignItems="center">
           <Card flex={1}>
             <Text fontSize="text" color="text">Я скачал все события из GitHub API за последние 3 дня...</Text>
@@ -450,7 +462,8 @@ export default function DeckComponent() {
           </Card>
         </FlexBox>
         <Notes>
-          [08:37] Тестовый фреймворк я навайбкодил за 20 минут. Но возникла другая проблема: откуда взять события? Я скачал
+          [08:37] Тестовый фреймворк я навайбкодил за 20 минут. Но возникла другая проблема: откуда взять события? Я
+          скачал
           их из API Гитхаба. Их оказалось 120 тысяч. Шансов вытащить что-то руками — ноль.
         </Notes>
       </Slide>
@@ -464,7 +477,8 @@ export default function DeckComponent() {
             <Box border="1px solid" borderColor="border" borderRadius={8} padding={16} marginTop={16}
                  backgroundColor="#F8F9FA">
               <Text fontFamily="monospace" color="muted" margin={0}>
-                "Gemini, сгенерируй мне тулзу на Питоне, которая будет индексировать эти файлики и позволит мне выцеплять
+                "Gemini, сгенерируй мне тулзу на Питоне, которая будет индексировать эти файлики и позволит мне
+                выцеплять
                 нужные паттерны..."
               </Text>
             </Box>
@@ -476,7 +490,8 @@ export default function DeckComponent() {
           </Card>
         </FlexBox>
         <Notes>
-          [09:20] И тут я пошел путем, которым бы никогда не пошел до LLM. Я пошел в Gemini и просто описал, какую утилиту
+          [09:20] И тут я пошел путем, которым бы никогда не пошел до LLM. Я пошел в Gemini и просто описал, какую
+          утилиту
           хочу. Сказано — сделано. За 10-15 минут я получил 1500 строк кода, которые успешно заработали.
         </Notes>
       </Slide>
@@ -564,7 +579,8 @@ export default function DeckComponent() {
           </Card>
         </FlexBox>
         <Notes>
-          [14:00] Хочу показать подводные камни. Кейс приложения Tii. Для регистрации женщины должны были делиться фото с
+          [14:00] Хочу показать подводные камни. Кейс приложения Tii. Для регистрации женщины должны были делиться фото
+          с
           паспортом. Они утверждали, что данные удаляют. Но в итоге все лежало в публичном бакете Firebase, доступно
           всему интернету. Не факт, что это вайбкодинг, но очень пахнет им.
         </Notes>
@@ -573,42 +589,56 @@ export default function DeckComponent() {
       {/* 18. ВЫВОД */}
       <Slide backgroundColor="bg">
         <SectionTitle label="Так блажь или благо?" caption="Отвечая на главный вопрос доклада"/>
-        <FlexBox gap={32} alignItems="stretch">
-          <Card flex={1}>
-            <Heading fontSize="h3" marginTop={0} color="success">✅ Благо</Heading>
-            <Text color="text" marginTop={24}>...если вы:</Text>
-            <UnorderedList color="text">
+        <FlexBox alignItems="stretch">
+          <Box flex={1} marginRight={32}>
+            <Card flex={1}>
+              <Heading fontSize="h3" marginTop={0} color="success">✅ Благо</Heading>
+              <Text color="text" marginTop={24}>...если вы:</Text>
+              <UnorderedList color="text">
                 <ListItem>Понимаете ограничения инструментов</ListItem>
                 <ListItem>Сохраняете контроль и экспертизу</ListItem>
                 <ListItem>Следуете инженерным практикам (тесты, ревью)</ListItem>
-            </UnorderedList>
-          </Card>
-          <Card flex={1}>
-            <Heading fontSize="h3" marginTop={0} color="danger">❌ Блажь</Heading>
-            <Text color="text" marginTop={24}>...если вы:</Text>
-            <UnorderedList color="text">
+              </UnorderedList>
+            </Card>
+          </Box>
+          <Box flex={1}>
+            <Card flex={1}>
+              <Heading fontSize="h3" marginTop={0} color="danger">❌ Блажь</Heading>
+              <Text color="text" marginTop={24}>...если вы:</Text>
+              <UnorderedList color="text">
                 <ListItem>Считаете себя всемогущим</ListItem>
                 <ListItem>Слепо доверяете сгенерированному коду</ListItem>
                 <ListItem>Игнорируете безопасность и здравый смысл</ListItem>
-            </UnorderedList>
-          </Card>
+              </UnorderedList>
+            </Card>
+          </Box>
         </FlexBox>
         <Notes>
-            [23:19] Так вот, отвечая на вопрос из названия доклада. Вайбкодинг — это благо, если вы понимаете
-            ограничения инструментов и следуете инженерным практикам. И это блажь, если вы считаете, что теперь
-            всемогущи и можете делать что угодно без контроля.
+          [23:19] Так вот, отвечая на вопрос из названия доклада. Вайбкодинг — это благо, если вы понимаете
+          ограничения инструментов и следуете инженерным практикам. И это блажь, если вы считаете, что теперь
+          всемогущи и можете делать что угодно без контроля.
         </Notes>
       </Slide>
 
       {/* 19. Q&A */}
       <Slide backgroundColor="bg">
-        <FlexBox height="100%" flexDirection="column" justifyContent="center" alignItems="center" gap={48}>
-          <Heading color="heading" fontSize="h1">Спасибо!</Heading>
-          <Text color="muted" fontSize="h4">Вопросы?</Text>
-          <FlexBox gap={32} alignItems="center">
+        <FlexBox height="100%" flexDirection="column" justifyContent="center" alignItems="center">
+          <Heading color="heading" fontSize="h1" marginBottom={48}>Спасибо!</Heading>
+          <Text color="muted" fontSize="h4" marginBottom={48}>Вопросы?</Text>
+          <FlexBox alignItems="center">
             {/*<QRBlock value={MATERIALS_URL} label="Материалы и слайды"/>*/}
-            <QRBlock value={CHANNEL_URL} label="Мой канал"/>
-            <QRBlock value={OUR_GROUP} label="Наша группа"/>
+            <Box marginRight={32}>
+              <QRBlock
+                value={CHANNEL_URL}
+                size={256}
+                label="Мой канал"/>
+            </Box>
+            <Box>
+              <QRBlock
+                value={OUR_GROUP}
+                size={256}
+                label="Наша группа"/>
+            </Box>
           </FlexBox>
         </FlexBox>
         <Notes>
