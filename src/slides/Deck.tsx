@@ -632,9 +632,9 @@ export default function DeckComponent() {
               <Heading fontSize="h4" color="heading">
                 Что пошло не так?
               </Heading>
-              <Text fontSize="small" color="text">
+              <Text fontSize="text" color="text">
                 Все персональные данные и <strong>фото паспортов</strong><br/> лежали в{" "}
-                <strong>публичном бакете Firebase</strong>
+                <strong>публичном бакете</strong> Firebase
               </Text>
             </Card>
           </Box>
@@ -643,7 +643,7 @@ export default function DeckComponent() {
               <Heading fontSize="h4" color="heading">
                 Последствия
               </Heading>
-              <UnorderedList fontSize="small" color="text">
+              <UnorderedList fontSize="text" color="text">
                 <ListItem>Компрометация тысяч паспортов</ListItem>
                 <ListItem>Масштабная утечка данных</ListItem>
                 <ListItem>Репутационный ущерб</ListItem>
