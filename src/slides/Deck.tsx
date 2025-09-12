@@ -464,26 +464,28 @@ export default function DeckComponent() {
 
       {/* 16. КАРТА ИНСТРУМЕНТОВ */}
       <Slide backgroundColor="bg">
-        <SectionTitle label="Мой инструментарий" caption="Как выглядит мой «управляемый» вайб-кодинг"/>
-        <MermaidDiagram chart={`
-          graph LR
-            subgraph "Планирование (большой контекст)"
-              A["**Gemini 2.5 Pro**<br/>(через AI Studio)"]
-            end
-            subgraph "Исполнение (go-to агент)"
-              B["**Claude Code**"]
-            end
+        <SectionTitle label="Мой инструментарий"/>
+        <VisualCard>
+          <MermaidDiagram chart={`
+          flowchart LR
+            D{"Сложность задачи"}
             
-            D{"Масштаб задачи"} --> |"Мелкая / Простая"| B
-            D --> |"Средняя / Крупная"| A
-            A -- План --> B
+            D --> |"Простая"| B["**Claude Code**<br/>(основной выбор)"]
+            D --> |"Средняя"| C["**Claude Code**<br/>(режим планирования)"]  
+            D --> |"Сложная"| A["**Gemini 2.5 Pro**<br/>(сложные планы и ревью)"]
             
-            classDef plan fill:#E9ECEF,stroke:#495057;
-            classDef exec fill:#E7F5FF,stroke:#339AF0;
+            C --> |"План готов"| B
+            A --> |"Ревью кода"| B
             
-            class A plan;
-            class B exec;
+            classDef simple fill:#E7F5FF,stroke:#339AF0;
+            classDef medium fill:#FFF3E0,stroke:#FF9800;
+            classDef complex fill:#FCE4EC,stroke:#E91E63;
+            
+            class B simple;
+            class C medium;
+            class A complex;
         `}/>
+        </VisualCard>
         <Notes>
           [12:17] Давайте немного об инструментах. Мой go-to инструмент — Claude Code для мелких задач. Если задача
           среднего размера, нужно планирование. Я либо прошу Claude Code спланировать, либо иду в Gemini 2.5 Pro,
