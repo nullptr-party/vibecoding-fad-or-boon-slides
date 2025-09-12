@@ -185,7 +185,7 @@ export default function DeckComponent() {
 
       {/* 2. ЧТО ТАКОЕ ВАЙБ-КОДИНГ? (ИСТОЧНИК) */}
       <Slide backgroundColor="bg">
-        <SectionTitle label="Что такое вайб-кодинг?"/>
+        <SectionTitle label="Что такое вайбкодинг?"/>
         <FitImage src={require("../img/tweet-1886192184808149383.png")}/>
         <Notes>
           [00:32] Что такое вайбкодинг? Термин придумал Андрей Карпатый, один из сооснователей OpenAI. Он описывает, как
@@ -457,7 +457,7 @@ export default function DeckComponent() {
 
       {/* 13. КЕЙС #2: РЕШЕНИЕ */}
       <Slide backgroundColor="bg">
-        <SectionTitle label="Решение: приложение по запросу" caption="Когда вайб-кодинг показывает свою силу"/>
+        <SectionTitle label="Решение: приложение по запросу" caption="Когда вайбкодинг показывает свою силу"/>
         <FlexBox gap={32} alignItems="center">
           <Card flex={2}>
             <Heading fontSize="h4" color="heading" marginTop={0}>Задача для AI</Heading>
@@ -493,14 +493,15 @@ export default function DeckComponent() {
 
       {/* 15. ЕЖЕДНЕВНЫЕ ПОБЕДЫ */}
       <Slide backgroundColor="bg">
-        <SectionTitle label="Ежедневные победы" caption="Где вайб-кодинг экономит время постоянно"/>
-        <FlexBox gap={24} alignItems="stretch" flexWrap="wrap">
-          <Card flex={1}><Text fontSize="text" color="text" textAlign="center">Генерация **Bash/YAML** для CI/CD (я ненавижу
-            Bash)</Text></Card>
-          <Card flex={1}><Text fontSize="text" color="text" textAlign="center">Красивые **отчёты в PR**</Text></Card>
-          <Card flex={1}><Text fontSize="text" color="text" textAlign="center">**Навигация по legacy** коду</Text></Card>
-          <Card flex={1}><Text fontSize="text" color="text" textAlign="center">Эта **презентация** (частично)</Text></Card>
-        </FlexBox>
+        <SectionTitle label="Ежедневные победы" caption="Где вайбкодинг экономит время постоянно"/>
+        <UnorderedList color="text">
+          <ListItem>Генерация <strong>Bash/YAML</strong> для CI/CD</ListItem>
+          <ListItem>Красивые <strong>отчёты в PR</strong></ListItem>
+          <ListItem>Правила для статических анализаторов</ListItem>
+          <ListItem>Проверки на CI</ListItem>
+          <ListItem><strong>Навигация по legacy</strong> коду</ListItem>
+          <ListItem>Эта презентация 🫡</ListItem>
+        </UnorderedList>
         <Notes>
           [10:55] Вайбкодинг помогает мне и в повседневной работе. Я плотно занимаюсь CI/CD, у нас много YAML и Bash. Я
           ненавижу Bash и за последний год не написал ни строчки. Всё делают нейронки. Отчеты в PR, навигация по
