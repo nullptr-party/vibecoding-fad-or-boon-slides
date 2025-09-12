@@ -281,12 +281,17 @@ export default function DeckComponent() {
       <Slide backgroundColor="bg">
         <SectionTitle label="Концепция бота" caption="Проще некуда"/>
         <VisualCard>
-          <MermaidDiagram size={'XXL'} chart={`
-              flowchart LR
-                A["👤 Новый пользователь<br/>📝 Первое сообщение"]
-                A --> B{"🤖 LLM-классификатор"}
-                B -->|"Это спам"| C["🚫 Бан"]
-                B -->|"Не спам"| D["✅ OK"]
+          <MermaidDiagram size={'L'} chart={`
+              graph LR
+                A["👤 **Новый пользователь**<br/>📝 Первое сообщение"]
+                A --> B{"🤖 **LLM-классификатор**"}
+                B -->|"Это спам"| C["🚫 **БАН**<br/>Удалить пользователя"]
+                B -->|"Не спам"| D["✅ **РАЗРЕШИТЬ**<br/>Оставить в группе"]
+                
+                style A fill:#E7F5FF,stroke:#339AF0
+                style B fill:#FFF3CD,stroke:#F0AD4E
+                style C fill:#FFF0F6,stroke:#DC3545
+                style D fill:#E3FAFC,stroke:#198754
             `}/>
         </VisualCard>
         <Notes>
