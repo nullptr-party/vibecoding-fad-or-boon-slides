@@ -4,20 +4,21 @@ import mermaid from "mermaid";
 import {QRCodeSVG} from 'qrcode.react';
 
 // ==================================================================
-// ДИЗАЙН И КОМПОНЕНТЫ (без изменений)
+// ДИЗАЙН И КОМПОНЕНТЫ
 // ==================================================================
 
+// НОВАЯ, БОЛЕЕ СВЕТЛАЯ ЦВЕТОВАЯ СХЕМА
 const theme = {
   colors: {
-    bg: "#F8F9FA",
-    text: "#212529",
-    heading: "#15191E",
-    accent: "#4C6EF5",
-    muted: "#868E96",
-    border: "#DEE2E6",
-    cardBg: "#FFFFFF",
-    danger: "#E03131",
-    success: "#2FBFA5",
+    bg: "#F8F9FA", // Слегка серый фон для "воздуха"
+    cardBg: "#FFFFFF", // Чисто белые карточки
+    text: "#495057", // Мягкий серый для основного текста
+    heading: "#212529", // Почти черный для заголовков, для контраста
+    accent: "#0D6EFD", // Более яркий и стандартный синий
+    muted: "#6C757D", // Приглушенный серый для подписей и второстепенного текста
+    border: "#E9ECEF", // Очень светлая граница
+    danger: "#DC3545",
+    success: "#198754",
   },
   fonts: {
     header: "'Manrope', sans-serif",
@@ -34,18 +35,18 @@ const theme = {
 };
 
 const Card: React.FC<{ children: React.ReactNode; flex?: number }> = ({children, flex}) => (
-  <Box
-    backgroundColor="cardBg"
-    border="1px solid"
-    borderColor="border"
-    borderRadius={16}
-    padding={24}
-    boxShadow="0 4px 12px rgba(0, 0, 0, 0.05)"
-    flex={flex}
-    height="100%"
-  >
-    {children}
-  </Box>
+    <Box
+        backgroundColor="cardBg"
+        border="1px solid"
+        borderColor="border"
+        borderRadius={16}
+        padding={32} // Увеличил паддинг для "воздуха"
+        boxShadow="0 4px 12px rgba(0, 0, 0, 0.05)"
+        flex={flex}
+        height="100%"
+    >
+        {children}
+    </Box>
 );
 
 const VisualCard: React.FC<{ children: React.ReactNode; flex?: number }> = ({children, flex}) => (
@@ -139,8 +140,9 @@ const FooterTemplate = ({slideNumber, numberOfSlides}: { slideNumber: number; nu
   </Box>
 );
 
+
 // ==================================================================
-// ФИНАЛЬНАЯ СТРУКТУРА ПРЕЗЕНТАЦИИ
+// ФИНАЛЬНАЯ СТРУКТУРА ПРЕЗЕНТАЦИИ (без изменений)
 // ==================================================================
 
 export default function DeckComponent() {
@@ -219,7 +221,7 @@ export default function DeckComponent() {
         <FlexBox gap={32} alignItems="stretch">
           <Card flex={1}>
             <Heading fontSize="h4" color="heading" marginTop={0}>Контекст</Heading>
-            <UnorderedList>
+            <UnorderedList color="text">
               <ListItem>Администрирую несколько Telegram-групп</ListItem>
               <ListItem>К октябрю прошлого года — куча спамеров</ListItem>
               <ListItem>Приходилось вычищать руками, это бесило</ListItem>
@@ -227,7 +229,7 @@ export default function DeckComponent() {
           </Card>
           <Card flex={1}>
             <Heading fontSize="h4" color="heading" marginTop={0}>Идея</Heading>
-            <Text>К тому моменту нейронки уже хорошо генерили код. Я решил: почему бы не навайбкодить бота?</Text>
+            <Text color="text">К тому моменту нейронки уже хорошо генерили код. Я решил: почему бы не навайбкодить бота?</Text>
           </Card>
         </FlexBox>
         <Notes>
@@ -287,10 +289,9 @@ export default function DeckComponent() {
             B --> D["❌ **Мой путь (часы страданий)**<br/>Сделать красивый веб-логин"];
             D --> E["Переписать на TypeScript"];
             E --> F["Переписать на Rust..."];
-            F --> G["...вернуться к простому пути"];
+            F --> G["...сдаться"];
             
-            style C fill:#E3FAFC,stroke:#2FBFA5
-            style D,E,F fill:#FFF0F6,stroke:#E03131
+            style C fill:#E3FAFC,stroke:#198754
         `}/>
         <Notes>
           [03:40] Когда у меня появилось рабочее решение, его нужно было задеплоить. Был простой вариант: скопировать
@@ -346,7 +347,7 @@ export default function DeckComponent() {
         <FlexBox gap={32} alignItems="stretch">
           <Card flex={1}>
             <Heading fontSize="h4" color="heading" marginTop={0}>Контекст</Heading>
-            <UnorderedList>
+            <UnorderedList color="text">
               <ListItem>Сервис на Go собирает метрики из GitHub</ListItem>
               <ListItem>Написан не мной, я не люблю Go</ListItem>
               <ListItem>И главное — **нет тестов**</ListItem>
@@ -354,7 +355,7 @@ export default function DeckComponent() {
           </Card>
           <Card flex={1}>
             <Heading fontSize="h4" color="heading" marginTop={0}>План</Heading>
-            <Text>Раз тестов нет, их нужно как-то родить. Самый простой вариант — **снэпшот-тесты**.</Text>
+            <Text color="text">Раз тестов нет, их нужно как-то родить. Самый простой вариант — **снэпшот-тесты**.</Text>
           </Card>
         </FlexBox>
         <Notes>
@@ -448,11 +449,11 @@ export default function DeckComponent() {
       <Slide backgroundColor="bg">
         <SectionTitle label="Ежедневные победы" caption="Где вайб-кодинг экономит время постоянно"/>
         <FlexBox gap={24} alignItems="stretch" flexWrap="wrap">
-          <Card flex={1}><Text fontSize="text" textAlign="center">Генерация **Bash/YAML** для CI/CD (я ненавижу
+          <Card flex={1}><Text fontSize="text" color="text" textAlign="center">Генерация **Bash/YAML** для CI/CD (я ненавижу
             Bash)</Text></Card>
-          <Card flex={1}><Text fontSize="text" textAlign="center">Красивые **отчёты в PR**</Text></Card>
-          <Card flex={1}><Text fontSize="text" textAlign="center">**Навигация по legacy** коду</Text></Card>
-          <Card flex={1}><Text fontSize="text" textAlign="center">Эта **презентация** (частично)</Text></Card>
+          <Card flex={1}><Text fontSize="text" color="text" textAlign="center">Красивые **отчёты в PR**</Text></Card>
+          <Card flex={1}><Text fontSize="text" color="text" textAlign="center">**Навигация по legacy** коду</Text></Card>
+          <Card flex={1}><Text fontSize="text" color="text" textAlign="center">Эта **презентация** (частично)</Text></Card>
         </FlexBox>
         <Notes>
           [10:55] Вайбкодинг помогает мне и в повседневной работе. Я плотно занимаюсь CI/CD, у нас много YAML и Bash. Я
@@ -467,7 +468,7 @@ export default function DeckComponent() {
         <MermaidDiagram chart={`
           graph LR
             subgraph "Планирование (большой контекст)"
-              A["**Gemini 1.5 Pro**<br/>(через AI Studio)"]
+              A["**Gemini 2.5 Pro**<br/>(через AI Studio)"]
             end
             subgraph "Исполнение (go-to агент)"
               B["**Claude Code**"]
@@ -485,7 +486,7 @@ export default function DeckComponent() {
         `}/>
         <Notes>
           [12:17] Давайте немного об инструментах. Мой go-to инструмент — Claude Code для мелких задач. Если задача
-          среднего размера, нужно планирование. Я либо прошу Claude Code спланировать, либо иду в Gemini 1.5 Pro,
+          среднего размера, нужно планирование. Я либо прошу Claude Code спланировать, либо иду в Gemini 2.5 Pro,
           собираю контекст, прошу сгенерить план, а потом этот план отдаю в Claude.
         </Notes>
       </Slide>
@@ -496,7 +497,7 @@ export default function DeckComponent() {
         <FlexBox gap={32} alignItems="stretch">
           <Card flex={1}>
             <Heading fontSize="h4" marginTop={0} color="danger">Что пошло не так?</Heading>
-            <UnorderedList fontSize="text">
+            <UnorderedList fontSize="text" color="text">
               <ListItem>Требовали фото с паспортом "для верификации"</ListItem>
               <ListItem>Собирали геолокацию пользователей</ListItem>
               <ListItem>И всё это лежало в **публичном бакете Firebase**</ListItem>
@@ -506,7 +507,7 @@ export default function DeckComponent() {
             <Heading fontSize="h4" marginTop={0} color="heading">Результат</Heading>
             <Text fontSize="text" color="text">Масштабная компрометация данных и репутационный ущерб.</Text>
             <Box border="1px solid" borderColor="danger" borderRadius={8} padding={16} marginTop={24}
-                 backgroundColor="#FFF0F6">
+                 backgroundColor="#F8D7DA">
               <Text fontSize="text" color="danger" textAlign="center" margin={0}>
                 С большой силой приходит большая ответственность
               </Text>
@@ -527,7 +528,7 @@ export default function DeckComponent() {
           <Card flex={1}>
             <Heading fontSize="h3" marginTop={0} color="success">✅ Благо</Heading>
             <Text color="text" marginTop={24}>...если вы:</Text>
-            <UnorderedList>
+            <UnorderedList color="text">
                 <ListItem>Понимаете ограничения инструментов</ListItem>
                 <ListItem>Сохраняете контроль и экспертизу</ListItem>
                 <ListItem>Следуете инженерным практикам (тесты, ревью)</ListItem>
@@ -536,7 +537,7 @@ export default function DeckComponent() {
           <Card flex={1}>
             <Heading fontSize="h3" marginTop={0} color="danger">❌ Блажь</Heading>
             <Text color="text" marginTop={24}>...если вы:</Text>
-            <UnorderedList>
+            <UnorderedList color="text">
                 <ListItem>Считаете себя всемогущим</ListItem>
                 <ListItem>Слепо доверяете сгенерированному коду</ListItem>
                 <ListItem>Игнорируете безопасность и здравый смысл</ListItem>
