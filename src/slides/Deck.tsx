@@ -556,26 +556,44 @@ export default function DeckComponent() {
       </Slide>
 
       {/* 17. КЕЙС "TEA": БЕЗОПАСНОСТЬ */}
+      {/* ================================================================== */}
+      {/* КЕЙС "Tea" РАЗДЕЛЕН НА ДВА СЛАЙДА */}
+      {/* ================================================================== */}
+
+      {/* 17. КЕЙС "Tea": КОНТЕКСТ */}
       <Slide backgroundColor="bg">
         <SectionTitle label='Кейс "Tea": когда всё идёт не так' caption="Пахнет чистым, неконтролируемым вайбкодингом"/>
+        <FlexBox>
+          <Card flex={1}>
+            <Heading fontSize="h4" marginTop={0} color="heading">Что требовало приложение?</Heading>
+            <UnorderedList fontSize="text" color="text">
+              <ListItem>Фото с паспортом для верификации женщин</ListItem>
+              <ListItem>Сбор геолокации пользователей</ListItem>
+              <ListItem>Обещание: "Мы всё удалим после проверки"</ListItem>
+            </UnorderedList>
+          </Card>
+        </FlexBox>
+        <Notes>
+          [14:00] Хочу показать подводные камни. Кейс приложения Tea. Для регистрации женщины должны были делиться фото с
+          паспортом и геолокацией. Они утверждали, что данные используют только для верификации и потом удаляют.
+        </Notes>
+      </Slide>
+
+      {/* 18. КЕЙС "TII": ПРОВАЛ */}
+      <Slide backgroundColor="bg">
+        <SectionTitle label='Кейс "Tea": когда всё идёт не так' caption="С большой силой приходит большая ответственность"/>
         <FlexBox gap={32} alignItems="stretch">
           <Card flex={1}>
             <Heading fontSize="h4" marginTop={0} color="danger">Что пошло не так?</Heading>
-            <UnorderedList fontSize="text" color="text">
-              <ListItem>Требовали фото с паспортом "для верификации"</ListItem>
-              <ListItem>Собирали геолокацию пользователей</ListItem>
-              <ListItem>И всё это лежало в **публичном бакете Firebase**</ListItem>
-            </UnorderedList>
+            <Text fontSize="h3" color="text" marginTop={48} textAlign="center">
+              Все данные лежали в <strong>публичном бакете Firebase</strong>
+            </Text>
           </Card>
           <Card flex={1}>
             <Heading fontSize="h4" marginTop={0} color="heading">Результат</Heading>
-            <Text fontSize="text" color="text">Масштабная компрометация данных и репутационный ущерб.</Text>
-            <Box border="1px solid" borderColor="danger" borderRadius={8} padding={16} marginTop={24}
-                 backgroundColor="#F8D7DA">
-              <Text fontSize="text" color="danger" textAlign="center" margin={0}>
-                С большой силой приходит большая ответственность
-              </Text>
-            </Box>
+            <Text fontSize="text" color="text" marginTop={48} textAlign="center">
+              Масштабная компрометация данных и репутационный ущерб.
+            </Text>
           </Card>
         </FlexBox>
         <Notes>
@@ -583,6 +601,9 @@ export default function DeckComponent() {
           с
           паспортом. Они утверждали, что данные удаляют. Но в итоге все лежало в публичном бакете Firebase, доступно
           всему интернету. Не факт, что это вайбкодинг, но очень пахнет им.
+          [14:57] Но в итоге всё, что они требовали, лежало в публичном бакете Firebase, доступно всему интернету.
+          Результат — огромное количество скомпрометированных данных. Не факт, что это был вайбкодинг, но очень пахнет
+          им.
         </Notes>
       </Slide>
 
