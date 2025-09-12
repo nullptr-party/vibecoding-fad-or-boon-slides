@@ -29,6 +29,7 @@ const theme = {
     h2: "56px",
     h3: "48px",
     h4: "36px",
+    h5: "24px",
     text: "28px",
     small: "20px",
   },
@@ -107,7 +108,7 @@ const SectionTitle: React.FC<{ label: string; caption?: string }> = ({label, cap
   <Box textAlign="left">
     <Heading color="heading" fontSize="h2" margin="0 0 8px 0">{label}</Heading>
     {caption && (
-      <Text color="muted" fontSize="text" margin="0">{caption}</Text>
+      <Text color="muted" fontSize="text" margin="0" marginTop={-16} marginBottom={32}>{caption}</Text>
     )}
   </Box>
 );
@@ -262,7 +263,7 @@ export default function DeckComponent() {
       </Slide>
       <Slide backgroundColor="bg">
         <SectionTitle label="Кейс #1: Антиспам-бот для Telegram" caption="Когда рутина достала"/>
-        <FlexBox  gap={32} alignItems="stretch">
+        <FlexBox gap={32} alignItems="stretch">
           <Card flex={1}>
             <Heading fontSize="h4" color="heading" marginTop={0}>Идея</Heading>
             <Text color="text">К октябрю 2024 нейронки уже хорошо генерили код. </Text>
@@ -372,8 +373,9 @@ export default function DeckComponent() {
         <Box>
           <FlexBox gap={24} alignItems="stretch">
             <Card flex={1}>
-              <Heading fontSize="h4" color="heading" marginTop={0}>Перфекционизм<br/><br /></Heading>
-              <Text fontSize="text" color="text">Нужно было остановиться на MVP, а я полез "делать красиво".<br /><br/></Text>
+              <Heading fontSize="h4" color="heading" marginTop={0}>Перфекционизм<br/><br/></Heading>
+              <Text fontSize="text" color="text">Нужно было остановиться на MVP, а я полез "делать
+                красиво".<br/><br/></Text>
             </Card>
             <Card flex={1}>
               <Heading fontSize="h4" color="heading" marginTop={0}>Невозвратные затраты</Heading>
@@ -418,7 +420,7 @@ export default function DeckComponent() {
       {/* НОВЫЙ СЛАЙД */}
       {/* ================================================================== */}
       <Slide backgroundColor="bg">
-        <SectionTitle label="Как работает сервис метрик" />
+        <SectionTitle label="Как работает сервис метрик"/>
         <VisualCard>
           <MermaidDiagram size={"XXL"} chart={`
             flowchart LR
@@ -489,14 +491,12 @@ export default function DeckComponent() {
       <Slide backgroundColor="bg">
         <SectionTitle label="Новая проблема: откуда взять данные?"
                       caption="Тестовый фреймворк готов за 20 минут, но..."/>
-        <FlexBox gap={48} alignItems="center" marginTop={48}>
+        <FlexBox gap={48} marginTop={48}>
           <Card flex={1}>
-            <Text fontSize="text" color="text">Я скачал все события из GitHub API за последние 3 дня...</Text>
-          </Card>
-          <Card flex={1}>
-            <Heading fontSize="h2" color="danger" margin="0 0 16px 0">120 000</Heading>
-            <Text fontSize="text" color="text" margin="0">JSON-файлов. На каждый PR по 200-300 событий.</Text>
-            <Text fontSize="text" color="muted" marginTop={16}>Руками их не разобрать.</Text>
+            <Text fontSize="text" color="text">
+              Я скачал все события из GitHub API за последние 3 дня...
+            </Text>
+            <Heading fontSize="h2" color="danger" margin="0 0 16px 0">120 000 JSON-файлов</Heading>
           </Card>
         </FlexBox>
         <Notes>
@@ -546,7 +546,7 @@ export default function DeckComponent() {
 
       {/* 15. ЕЖЕДНЕВНЫЕ ПОБЕДЫ */}
       <Slide backgroundColor="bg">
-        <SectionTitle label="Ежедневные победы" caption="Где вайбкодинг экономит время постоянно"/>
+        <SectionTitle label="Ежедневные победы" caption="Где вайбкодинг экономит время"/>
         <UnorderedList color="text">
           <ListItem>Генерация <strong>Bash/YAML</strong> для CI/CD</ListItem>
           <ListItem>Красивые <strong>отчёты в PR</strong></ListItem>
@@ -566,7 +566,7 @@ export default function DeckComponent() {
       <Slide backgroundColor="bg">
         <SectionTitle label="Мой инструментарий"/>
         <VisualCard>
-          <MermaidDiagram chart={`
+          <MermaidDiagram size={"L"} chart={`
           flowchart LR
             D{"Сложность задачи"}
             
@@ -574,16 +574,18 @@ export default function DeckComponent() {
             D --> |"Средняя"| C["**Claude Code**<br/>(режим планирования)"]  
             D --> |"Сложная"| A["**Gemini 2.5 Pro**<br/>(сложные планы и ревью)"]
             
-            C --> |"План готов"| B
-            A --> |"Ревью кода"| B
+            C --> |"План"| B
+            A --> |"План"| B
             
             classDef simple fill:#E7F5FF,stroke:#339AF0;
             classDef medium fill:#FFF3E0,stroke:#FF9800;
             classDef complex fill:#FCE4EC,stroke:#E91E63;
+            classDef decision fill:#F0F0F0,stroke:#333333;
             
             class B simple;
             class C medium;
             class A complex;
+            class D decision;
         `}/>
         </VisualCard>
         <Notes>
@@ -600,11 +602,11 @@ export default function DeckComponent() {
 
       {/* 17. КЕЙС "Tea": КОНТЕКСТ */}
       <Slide backgroundColor="bg">
-        <SectionTitle label='Кейс "Tea": когда всё идёт не так' caption="Пахнет чистым, неконтролируемым вайбкодингом"/>
-        <FlexBox>
+        <SectionTitle label='Кейс "Tea": когда всё идёт не так' caption="Пахнет чистым неконтролируемым вайбкодингом"/>
+        <FlexBox marginTop={16}>
           <Card flex={1}>
-            <Heading fontSize="h4" marginTop={0} color="heading">Что требовало приложение?</Heading>
-            <UnorderedList fontSize="text" color="text">
+            <Heading fontSize="h5" marginTop={0} color="heading">Что требовало приложение?</Heading>
+            <UnorderedList fontSize="small" color="text">
               <ListItem>Фото с паспортом для верификации женщин</ListItem>
               <ListItem>Сбор геолокации пользователей</ListItem>
               <ListItem>Обещание: "Мы всё удалим после проверки"</ListItem>
@@ -620,41 +622,49 @@ export default function DeckComponent() {
 
       {/* 18. КЕЙС "TII": ПРОВАЛ */}
       <Slide backgroundColor="bg">
-        <SectionTitle label='Кейс "Tea": когда всё идёт не так'
-                      caption="С большой силой приходит большая ответственность"/>
-        <FlexBox gap={32} alignItems="stretch">
-          <Card flex={1}>
-            <Heading fontSize="h4" marginTop={0} color="danger">Что пошло не так?</Heading>
-            <Text fontSize="h3" color="text" marginTop={48} textAlign="center">
-              Все данные лежали в <strong>публичном бакете Firebase</strong>
-            </Text>
-          </Card>
-          <Card flex={1}>
-            <Heading fontSize="h4" marginTop={0} color="heading">Результат</Heading>
-            <Text fontSize="text" color="text" marginTop={48} textAlign="center">
-              Масштабная компрометация данных и репутационный ущерб.
-            </Text>
-          </Card>
+        <SectionTitle
+          label='Кейс "Tea": когда всё идёт не так'
+          caption="С большой силой приходит большая ответственность"
+        />
+        <FlexBox alignItems="stretch">
+          <Box flex={1} marginRight={32}>
+            <Card flex={1}>
+              <Heading fontSize="h4" color="heading">
+                Что пошло не так?
+              </Heading>
+              <Text fontSize="small" color="text">
+                Все персональные данные и <strong>фото паспортов</strong><br/> лежали в{" "}
+                <strong>публичном бакете Firebase</strong>
+              </Text>
+            </Card>
+          </Box>
+          <Box flex={1}>
+            <Card flex={1}>
+              <Heading fontSize="h4" color="heading">
+                Последствия
+              </Heading>
+              <UnorderedList fontSize="small" color="text">
+                <ListItem>Компрометация тысяч паспортов</ListItem>
+                <ListItem>Масштабная утечка данных</ListItem>
+                <ListItem>Репутационный ущерб</ListItem>
+              </UnorderedList>
+            </Card>
+          </Box>
         </FlexBox>
         <Notes>
-          [14:00] Хочу показать подводные камни. Кейс приложения Tii. Для регистрации женщины должны были делиться фото
-          с
-          паспортом. Они утверждали, что данные удаляют. Но в итоге все лежало в публичном бакете Firebase, доступно
-          всему интернету. Не факт, что это вайбкодинг, но очень пахнет им.
-          [14:57] Но в итоге всё, что они требовали, лежало в публичном бакете Firebase, доступно всему интернету.
-          Результат — огромное количество скомпрометированных данных. Не факт, что это был вайбкодинг, но очень пахнет
-          им.
+          [14:00] Хочу показать подводные камни. Кейс приложения Tii. Для регистрации женщины должны были делиться фото с паспортом. Они утверждали, что данные удаляют. Но в итоге все лежало в публичном бакете Firebase, доступно всему интернету. Не факт, что это вайбкодинг, но очень пахнет им.
+          [14:57] Но в итоге всё, что они требовали, лежало в публичном бакете Firebase, доступно всему интернету. Результат — огромное количество скомпрометированных данных. Не факт, что это был вайбкодинг, но очень пахнет им.
         </Notes>
       </Slide>
 
       {/* 18. ВЫВОД */}
       <Slide backgroundColor="bg">
         <SectionTitle label="Так блажь или благо?" caption="Отвечая на главный вопрос доклада"/>
-        <FlexBox alignItems="stretch">
+        <FlexBox alignItems="stretch" marginTop={-16}>
           <Box flex={1} marginRight={32}>
             <Card flex={1}>
               <Heading fontSize="h3" marginTop={0} color="success">✅ Благо</Heading>
-              <Text color="text" marginTop={24}>...если вы:</Text>
+              <Text color="text">...если вы:</Text>
               <UnorderedList color="text">
                 <ListItem>Понимаете ограничения инструментов</ListItem>
                 <ListItem>Сохраняете контроль и экспертизу</ListItem>
@@ -665,7 +675,7 @@ export default function DeckComponent() {
           <Box flex={1}>
             <Card flex={1}>
               <Heading fontSize="h3" marginTop={0} color="danger">❌ Блажь</Heading>
-              <Text color="text" marginTop={24}>...если вы:</Text>
+              <Text color="text">...если вы:</Text>
               <UnorderedList color="text">
                 <ListItem>Считаете себя всемогущим</ListItem>
                 <ListItem>Слепо доверяете сгенерированному коду</ListItem>
