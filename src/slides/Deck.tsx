@@ -427,10 +427,16 @@ export default function DeckComponent() {
       <Slide backgroundColor="bg">
         <SectionTitle label="Как работает сервис метрик"/>
         <VisualCard>
-          <MermaidDiagram size={"XXL"} chart={`
-            flowchart LR
-                A["🐙 **GitHub**"] -- "Webhooks<br/>(workflow_run, workflow_job)" --> B["⚙️ **Сервис метрик (Go)**<br/>Агрегирует и считает"];
+          <MermaidDiagram size={"L"} chart={`
+            graph LR
+                A["🐙 **GitHub**"] --> W["📡 **Webhooks**<br/>workflow_run<br/>workflow_job"];
+                W --> B["⚙️ **Сервис метрик (Go)**<br/>Агрегирует и считает"];
                 B --> C["💾 **ClickHouse**<br/>Хранит готовые метрики"];
+                
+                style A fill:#E7F5FF,stroke:#339AF0
+                style W fill:#E7F5FF,stroke:#339AF0
+                style B fill:#E7F5FF,stroke:#339AF0
+                style C fill:#E7F5FF,stroke:#339AF0
             `}/>
         </VisualCard>
         <Notes>
@@ -461,11 +467,16 @@ export default function DeckComponent() {
       <Slide backgroundColor="bg">
         <SectionTitle label="Как работают snapshot-тесты" caption="Шаг 1: Создание snapshot"/>
         <VisualCard>
-          <MermaidDiagram size="XXL" chart={`
-            flowchart LR
-                A["📥 Вход<br>(события)"] --> B["⚙️ **Сервис**<br>(чёрный ящик)"];
-                B --> C["📤 Выход<br>(состояние БД)"];
+          <MermaidDiagram size="L" chart={`
+            graph LR
+                A["📥 **Вход**<br>(события)"] --> B["⚙️ **Сервис**<br>(чёрный ящик)"];
+                B --> C["📤 **Выход**<br>(состояние БД)"];
                 C --> D["📸 **Snapshot**<br/>Записываем результат"];
+                
+                style A fill:#E7F5FF,stroke:#339AF0
+                style B fill:#FFF3CD,stroke:#F0AD4E
+                style C fill:#E3FAFC,stroke:#198754
+                style D fill:#F3E8FF,stroke:#9C27B0
             `}/>
         </VisualCard>
         <Notes>
@@ -479,12 +490,19 @@ export default function DeckComponent() {
         <SectionTitle label="Как работают snapshot-тесты" caption="Шаг 2: Сравнение со слепком"/>
         <VisualCard>
           <MermaidDiagram size={"L"} chart={`
-            flowchart LR
-                A["📥 Тот же вход"] --> B["⚙️ **Сервис**"];
-                B --> C["📤 Новый выход"];
-                C --> E{"Сравнить со слепком"};
-                E --> |"Совпало"| F["✅ OK"];
-                E --> |"Не совпало"| G["❌ Fail"];
+            graph LR
+                A["📥 **Тот же вход**"] --> B["⚙️ **Сервис**"];
+                B --> C["📤 **Новый выход**"];
+                C --> E{"**Сравнить со слепком**"};
+                E --> |"Совпало"| F["✅ **OK**"];
+                E --> |"Не совпало"| G["❌ **Fail**"];
+                
+                style A fill:#E7F5FF,stroke:#339AF0
+                style B fill:#FFF3CD,stroke:#F0AD4E
+                style C fill:#E3FAFC,stroke:#198754
+                style E fill:#F8F9FA,stroke:#6C757D
+                style F fill:#E3FAFC,stroke:#198754
+                style G fill:#FFF0F6,stroke:#DC3545
             `}/>
         </VisualCard>
         <Notes>
